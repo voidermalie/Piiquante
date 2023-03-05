@@ -12,8 +12,8 @@ exports.signup = (req, res, next) => {
                 password: hash
             });
             user.save()
-              .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-              .catch(error => res.status(400).json({ error }));
+                .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+                .catch(error => res.status(400).json({ error }));
           })
           .catch(error => res.status(500).json({ error }));
 };
@@ -24,7 +24,7 @@ renvoie l'_id de l'utilisateur depuis la base de données et un token web JSON s
 (contenant également l'_id de l'utilisateur)
 */
 exports.login = (req, res, next) => {
-    User.findOne({ email: req.body.email }) //objet de filtre "email" sur la classe User
+    User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
                 res.status(401).json({ message: 'Paire identifiant/mot de passe incorrecte' });
@@ -44,9 +44,7 @@ exports.login = (req, res, next) => {
                             });
                         }
                     })
-                    .catch(error => {
-                        res.status(500).json({ error });
-                    });
+                    .catch(error => res.status(500).json({ error }));
             }
         })
         .catch(error => res.status(500).json({ error }));

@@ -1,9 +1,7 @@
-// ici se trouve la logique "métier"
-
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
 
-// POST
+// POST - creaye sauce
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id;
@@ -13,19 +11,18 @@ exports.createSauce = (req, res, next) => {
       userId: req.auth.userId,
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
-
     sauce.save()
-      .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-      .catch(error => res.status(400).json({ error }));
+         .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
+         .catch(error => res.status(400).json({ error }));
 };
 
-//PUT
+//PUT - modify sauce
 exports.modifySauce = (req, res, next) => {
     const sauceObject = req.file ? {
       ...JSON.parse(req.body.sauce),
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : {...req.body};
-
+    
     delete sauceObject._userId;
 
     Sauce.findOne({_id: req.params.id})
