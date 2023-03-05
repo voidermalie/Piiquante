@@ -1,3 +1,4 @@
+const dotenv = require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -11,8 +12,6 @@ app.use(cors({
 }));
 app.use(express.json()); //intercèpte toutes les requêtes ayant pour content-type:json et met à disp pour l'objet 'requête'
 app.use(helmet());
-app.use(helmet({crossOriginResourcePolicy: false}));
-
 
 // ------------------------------------------ROUTES-----------------------------------------------
 
@@ -31,11 +30,9 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 // Connexion à la base de données
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false); //to avoid error message in console
-mongoose.connect('mongodb+srv://voidermalie:GoFullStackP6MongoDB@cluster0.qo1kyve.mongodb.net/?retryWrites=true&w=majority',
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
+mongoose.connect(process.env.DATABASE_URL,
+    {useNewUrlParser: true, useUnifiedTopology: true}
+  )
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
