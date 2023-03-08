@@ -1,9 +1,10 @@
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const express = require('express');
-const helmet = require('helmet');
 const cors = require('cors');
+const helmet = require('helmet');
+const mongoose = require('mongoose');
 
-const app = express();              //appeler cette méthode permet de créer une app Express
+const app = express();           //appeler cette méthode permet de créer une app Express
 
 //----------------------------------------Middlewares----------------------------------------------
 
@@ -19,7 +20,7 @@ const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 const path = require('path');
 
-// définit l'URL d'API pour les middlewares
+// Définit l'URL d'API pour les middlewares
 app.use('/api/sauces', saucesRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
@@ -28,13 +29,14 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 // ----------------------------------------MongoDB------------------------------------------------- 
 
 // Connexion à la base de données
-const mongoose = require('mongoose');
-mongoose.set('strictQuery', false); //to avoid error message in console
-mongoose.connect(process.env.DATABASE_URL,
-    {useNewUrlParser: true, useUnifiedTopology: true}
-  )
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+mongoose
+    .set('strictQuery', false) //to avoid error message in console
+    .connect(process.env.DATABASE_URL, {
+        useNewUrlParser: true, useUnifiedTopology: true
+    })
+    .then(() => console.log('Connexion à MongoDB réussie !'))
+    .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 
 //Export app
