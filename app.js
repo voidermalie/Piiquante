@@ -1,10 +1,11 @@
-require('dotenv').config();
 const express = require('express');
+const app = express();           //appeler cette méthode permet de créer une app Express
+
+const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
-const mongoose = require('mongoose');
 
-const app = express();           //appeler cette méthode permet de créer une app Express
+require('dotenv').config();
 
 //----------------------------------------Middlewares----------------------------------------------
 
@@ -21,15 +22,14 @@ const userRoutes = require('./routes/user');
 const path = require('path');
 
 // Définit l'URL d'API pour les middlewares
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/sauces', saucesRoutes);
 app.use('/api/auth', userRoutes);
-app.use('/images', express.static(path.join(__dirname, 'images')));
+
 
 
 // ----------------------------------------MongoDB------------------------------------------------- 
-
 // Connexion à la base de données
-
 mongoose
     .set('strictQuery', false) //to avoid error message in console
     .connect(process.env.DATABASE_URL, {

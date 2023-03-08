@@ -4,12 +4,17 @@ const fs = require('fs');
 // POST - create sauce
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
+    console.log(req.body.sauce)
     delete sauceObject._id;
-    delete sauceObject._userId // underscore ????
+    delete sauceObject._userId; // underscore ????
     const sauce = new Sauce({
       ...sauceObject,
       userId: req.auth.userId,
-      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+      likes: 0,
+      dislikes: 0,
+      usersLiked: [],
+      usersDisliked: [],
     });
     sauce.save()
          .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
@@ -66,6 +71,6 @@ exports.getOneSauce = (req, res, next) => {
 // GET ALL
 exports.getAllSauces = (req, res, next) => {
     Sauce.find()
-      .then((sauces) => res.status(200).json({sauces}))
+      .then((sauces) => res.status(200).json(sauces))
       .catch(error => res.status(400).json({ error }));
 };
