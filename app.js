@@ -13,7 +13,7 @@ app.use(cors({
   origin: '*'
 }));
 app.use(express.json()); //intercèpte toutes les requêtes ayant pour content-type:json et met à disp pour l'objet 'requête'
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: false}));
 
 // ------------------------------------------ROUTES-----------------------------------------------
 
@@ -23,8 +23,8 @@ const path = require('path');
 
 // Définit l'URL d'API pour les middlewares
 app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/api/sauces', saucesRoutes);
 app.use('/api/auth', userRoutes);
+app.use('/api/sauces', saucesRoutes);
 
 
 
@@ -42,7 +42,7 @@ mongoose
 //Export app
 module.exports = app;
 
-/*
+
 // manual CORS error handling
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -50,4 +50,3 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
-*/
