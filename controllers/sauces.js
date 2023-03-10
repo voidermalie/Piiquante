@@ -99,7 +99,7 @@ exports.likeSauce = (req, res) => {
 
         case 0: //User cancels like/dislike
           const indexLiked = sauce.usersLiked.indexOf(userId);
-          if (indexLiked !== -1) {
+          if (indexLiked !== -1) { // user exists
             sauce.likes -= 1;
             sauce.usersLiked.splice(indexLiked, 1);
           }
