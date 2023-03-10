@@ -84,7 +84,7 @@ exports.likeSauce = (req, res) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce => {
       if (!sauce) {
-        res.status(404).json({ message: 'Sauce non trouvé !'})
+        res.status(404).json({ message: 'Sauce non trouvé !' })
         return;
       }
       switch (like) {
@@ -96,10 +96,11 @@ exports.likeSauce = (req, res) => {
         case -1: //User dislikes the sauce
           sauce.dislikes += 1;
           sauce.usersDisliked.push(userId);
+          break;
 
         case 0: //User cancels like/dislike
           const indexLiked = sauce.usersLiked.indexOf(userId);
-          if (indexLiked !== -1) { // user exists
+          if (indexLiked !== -1) { // = user exists in list
             sauce.likes -= 1;
             sauce.usersLiked.splice(indexLiked, 1);
           }
