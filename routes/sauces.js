@@ -16,3 +16,7 @@ router.delete('/:id', auth, saucesCtrl.deleteSauce);
 router.post('/:id/like', auth, saucesCtrl.likeSauce);
 
 module.exports = router;
+
+//middleware : au milieu, enrichit la requete
+//controller : crée la réponse, à la fin
+//app.js : point d'entrée => route = middle = controlleur

@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
 const fileFilter = (req, file, cb) => {
     const isValidType = file.mimetype === 'image/jpg' || file.mimetype === 'image/png';
     const isValidSize = file.size <= 1024 * 1024; // 1MB
-  
+    console.log(file.size)
     if (isValidType && isValidSize) {
       cb(null, true);
     } else {
@@ -33,5 +33,6 @@ const fileFilter = (req, file, cb) => {
     }
 };
 */
+
 
 module.exports = multer({storage: storage}).single('image');
