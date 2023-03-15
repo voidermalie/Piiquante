@@ -1,5 +1,5 @@
 const Sauce = require('../models/Sauce');
-const fs = require('fs');
+const fs = require('fs'); //pour modifier le système de fichiers
 
 // GET ONE
 exports.getOneSauce = (req, res) => {
@@ -51,9 +51,14 @@ exports.modifySauce = (req, res) => {
         if (sauce.userId !== req.auth.userId) {
           res.status(403).json({ message: 'Non autorisé' });
         } else {
+          // Supprimer l'ancienne image avant d'enregistrer la nouvelle
+          const filename = sauce.imageUrl.split('images/')[1];
+          fs.unlink(`images/${filename}`, () => { //fs unlink => méthode asynchrone
+          // Enregistrer l'image
           Sauce.updateOne({ _id: req.params.id}, { ...sauceObject, _id: req.params.id})
             .then(() => res.status(200).json({ message: 'Objet modifié' }))
             .catch(error => res.status(401).json({ error }));
+          });
         }
       })
       .catch(error => res.status(400).json({ error }));
@@ -88,6 +93,7 @@ exports.likeSauce = (req, res) => {
         return;
       }
       switch (like) {
+
         case 1: //User likes the sauce
           sauce.likes += 1;
           sauce.usersLiked.push(userId);
@@ -99,13 +105,13 @@ exports.likeSauce = (req, res) => {
           break;
 
         case 0: //User cancels like/dislike
-          const indexLiked = sauce.usersLiked.indexOf(userId);
+          const indexLiked = sauce.usersLiked.indexOf(userId); //returns index
           if (indexLiked !== -1) { // = user exists in list
             sauce.likes -= 1;
             sauce.usersLiked.splice(indexLiked, 1);
           }
           const indexDisliked = sauce.usersDisliked.indexOf(userId);
-          if (indexLiked !== -1) {
+          if (indexDisliked !== -1) {
             sauce.dislikes -= 1;
             sauce.usersDisliked.splice(indexDisliked, 1);
           }
