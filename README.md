@@ -15,7 +15,7 @@ You can check out the project through this video:
 https://github.com/voidermalie/Piiquante/assets/113389962/81fbd92f-7567-497f-b48f-2063aea29787
 
 or clone and run the project locally:
-the back-end with cmd ```node server``` and the front-end cmd ```npm start```.
+the back-end with cmd ```node server``` and the [front-end](https://github.com/voidermalie/piiquante-front) cmd ```npm start```.
 Then, the site should be available at localhost:4200.
 
 ## 🌶️ Technologies Used
